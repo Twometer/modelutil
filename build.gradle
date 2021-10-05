@@ -1,0 +1,36 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.31'
+}
+
+group 'de.twometer'
+version '1.0.0'
+
+/* Version configuration */
+project.ext.lwjglVersion = "3.2.3"
+project.ext.imguiVersion = "1.84.1.0"
+
+switch (org.gradle.internal.os.OperatingSystem.current()) {
+    case org.gradle.internal.os.OperatingSystem.LINUX:
+        project.ext.natives = "natives-linux"
+        break
+    case org.gradle.internal.os.OperatingSystem.MAC_OS:
+        project.ext.natives = "natives-macos"
+        break
+    case org.gradle.internal.os.OperatingSystem.WINDOWS:
+        project.ext.natives = "natives-windows"
+        break
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+    implementation "org.lwjgl:lwjgl"
+    implementation "org.lwjgl:lwjgl-assimp"
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.31'
+
+    runtimeOnly "org.lwjgl:lwjgl::$natives"
+    runtimeOnly "org.lwjgl:lwjgl-assimp::$natives"
+}
